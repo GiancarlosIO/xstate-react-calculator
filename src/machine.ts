@@ -1,12 +1,14 @@
-import { Machine, assign, actions } from 'xstate';
+import { Machine, assign } from 'xstate';
 
-const not = fn => (...args) => fn(...args);
+const not = fn => (...args) => !fn(...args);
 const isZero = (context, event) => event.key === 0;
 const isNotZero = not(isZero);
 const isMinus = (context, event) => event.operator === '-';
 const isNotMinus = not(isMinus);
 const divideByZero = (context, event) => {
-  return context.operand2 === '0.' && context.operator === '/';
+  return (
+    (!context.operand2 || context.operand2 === '0.') && context.operator === '/'
+  );
 };
 const notDivideByZero = not(divideByZero);
 
@@ -61,7 +63,7 @@ const calMachine = Machine<Context>(
             {
               cond: 'isNotZero',
               target: 'operand1.before_decimal_point',
-              actions: 'setReadoutNum',
+              actions: ['setReadoutNum'],
             },
           ],
           OPERATOR: {
@@ -162,12 +164,12 @@ const calMachine = Machine<Context>(
             {
               cond: 'isZero',
               target: 'operand2.zero',
-              actions: ['defaultReadout'],
+              actions: ['defaultReadout', 'saveOperand2'],
             },
             {
               cond: 'isNotZero',
               target: 'operand2.before_decimal_point',
-              actions: ['setReadoutNum'],
+              actions: ['setReadoutNum', 'saveOperand2'],
             },
           ],
           DECIMAL_POINT: {
@@ -178,15 +180,21 @@ const calMachine = Machine<Context>(
       },
       operand2: {
         on: {
-          OPERATOR: {
-            target: 'operator_entered',
-            actions: [
-              'storeResultAsOperand2',
-              'compute',
-              'storeResultAsOperand1',
-              'setOperator',
-            ],
-          },
+          OPERATOR: [
+            {
+              cond: 'notDivideByZero',
+              target: 'operator_entered',
+              actions: [
+                'storeResultAsOperand2',
+                'compute',
+                'storeResultAsOperand1',
+                'setOperator',
+              ],
+            },
+            {
+              target: 'alert',
+            },
+          ],
           EQUALS: [
             {
               cond: 'notDivideByZero',
@@ -195,19 +203,15 @@ const calMachine = Machine<Context>(
             },
             {
               target: 'alert',
-              actions: ['dividedByZeroAlert'],
             },
           ],
           CLEAR_ENTRY: {
-            target: 'operand2',
+            target: 'operand2.zero',
             actions: ['defaultReadout'],
           },
         },
-        initial: 'hist',
+        initial: 'zero',
         states: {
-          hist: {
-            type: 'history',
-          },
           zero: {
             on: {
               NUMBER: {
@@ -247,6 +251,7 @@ const calMachine = Machine<Context>(
             {
               cond: 'isNotZero',
               target: 'operand2.before_decimal_point',
+              actions: ['setNegativeReadoutNum'],
             },
           ],
           DECIMAL_POINT: {
@@ -270,6 +275,7 @@ const calMachine = Machine<Context>(
             {
               cond: 'isNotZero',
               target: 'operand1.before_decimal_point',
+              actions: ['setReadoutNum'],
             },
           ],
           PERCENTAGE: {
@@ -287,8 +293,16 @@ const calMachine = Machine<Context>(
         },
       },
       alert: {
-        on: {
-          OK: 'operand2.hist',
+        invoke: {
+          src: (context, event) => () => {
+            // eslint-disable-next-line no-alert
+            alert('Cannot divide by zero!');
+            return Promise.resolve();
+          },
+          onDone: {
+            target: 'start',
+            actions: ['reset'],
+          },
         },
       },
     },
@@ -303,7 +317,11 @@ const calMachine = Machine<Context>(
     },
     actions: {
       defaultReadout: assign({
-        display: () => '0.',
+        display: () => {
+          console.log('defaultReadout');
+
+          return '0.';
+        },
       }),
 
       defaultNegativeReadout: assign({
@@ -324,7 +342,9 @@ const calMachine = Machine<Context>(
       }),
 
       setReadoutNum: assign({
-        display: (context, event) => `${event.key}.`,
+        display: (context, event) => {
+          return `${event.key}.`;
+        },
       }),
 
       setNegativeReadoutNum: assign({
@@ -372,16 +392,9 @@ const calMachine = Machine<Context>(
         operand2: context => context.display,
       }),
 
-      divideByZeroAlert() {
-        // have to put the alert in setTimout because action is executed on event, before the transition to nextState happens
-        // this alert is supposed to happend on transition
-        // setTimout allows time for other state transition (to 'alert' state) to happen before showing the alert
-        // probably a better way to do it. like entry or exit actions
-        setTimeout(() => {
-          alert('Cannot divide by zero!');
-          this.transition('ok');
-        }, 0);
-      },
+      saveOperand2: assign({
+        operand2: (context, event) => context.display,
+      }),
 
       reset: assign({
         display: () => '0.',

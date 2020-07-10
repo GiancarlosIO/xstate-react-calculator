@@ -68,14 +68,35 @@ const buttons = [
   '%',
 ];
 
+function isOperator(text) {
+  return '+-x/'.indexOf(text) > -1;
+}
+
 const Calculator = () => {
-  const [state, send] = useMachine(machine, {});
-  // const [value, setValue] = React.useState(0);
+  const [state, sendMachine] = useMachine(machine, {});
 
-  console.log({ state });
+  function send(event, payload) {
+    console.log('Event - Payload', { event, payload });
 
-  const handleButtonClick = btnLabel => () => {
-    console.log({ btnLabel });
+    sendMachine(event, payload);
+  }
+
+  const handleButtonClick = item => () => {
+    if (Number.isInteger(+item)) {
+      send('NUMBER', { key: +item });
+    } else if (isOperator(item)) {
+      send('OPERATOR', { operator: item });
+    } else if (item === 'C') {
+      send('CLEAR_EVERYTHING', {});
+    } else if (item === '.') {
+      send('DECIMAL_POINT', {});
+    } else if (item === '%') {
+      send('PERCENTAGE', {});
+    } else if (item === 'CE') {
+      send('CLEAR_ENTRY', {});
+    } else {
+      send('EQUALS', {});
+    }
   };
 
   return (
