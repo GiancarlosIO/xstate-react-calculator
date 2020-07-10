@@ -11,6 +11,10 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitAny": false,
+    "lib": [
+      "dom",
+      "es2015"
+    ],
     "jsx": "react",
     "baseUrl": "./",
     "paths": {
@@ -25,7 +29,7 @@
     ]
   },
   "include": [
-    "src/**/*"
+    "src/*"
   ],
   "exclude": [
     "node_modules",
