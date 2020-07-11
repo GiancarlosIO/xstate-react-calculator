@@ -14,6 +14,7 @@
     "skipLibCheck": true,
     "target": "es5",
     "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
     "lib": [
       "dom",
       "dom.iterable",
