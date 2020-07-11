@@ -24,11 +24,6 @@
     ],
     "jsx": "react",
     "baseUrl": "./",
-    "paths": {
-      "*": [
-        "*"
-      ]
-    },
     "plugins": [
       {
         "name": "typescript-styled-plugin"
