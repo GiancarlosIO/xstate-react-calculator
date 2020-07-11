@@ -23,7 +23,6 @@
       "esnext"
     ],
     "jsx": "react",
-    "baseUrl": "./",
     "plugins": [
       {
         "name": "typescript-styled-plugin"
