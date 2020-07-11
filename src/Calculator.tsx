@@ -101,20 +101,35 @@ const Calculator = () => {
 
   return (
     <div
-      className="w-full h-auto border-gray-500 border-solid border-2 mt-4 mx-auto"
       style={{
         width: 300,
+        height: 'auto',
+        border: '1px solid rgba(0,0,0,0.05)',
+        margin: '0 auto',
+        marginTop: 16,
       }}
     >
       <div>
         <Input
-          className="w-full text-right px-5 py-2 border-none outline-none"
           type="text"
           value={state.context.display}
           disabled
+          style={{
+            width: '100%',
+            textAlign: 'right',
+            padding: '8px 20px',
+            border: 'none',
+            outline: 'none',
+          }}
         />
       </div>
-      <ButtonGrid className="w-full px-5 py-2">
+      <ButtonGrid
+        style={{
+          padding: '8px 20px',
+          width: '100%',
+          boxSizing: 'border-box',
+        }}
+      >
         {buttons.map((btn, index) => (
           <Button
             className={btn === 'C' ? 'two-span' : ''}
@@ -130,12 +145,15 @@ const Calculator = () => {
       <div
         className="mt-4 px-5 pb-4"
         css={`
+          margin-top: 8px;
+          padding: 20px 16px;
           p,
           pre,
           code {
             text-align: left;
             margin: 0;
             padding: 0;
+            margin-top: 12px;
           }
         `}
       >

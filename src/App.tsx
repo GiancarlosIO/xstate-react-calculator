@@ -2,17 +2,34 @@ import React from 'react';
 
 import Calculator from './Calculator';
 
-const App = props => {
+const App = () => {
   return (
     <div
       style={{
         width: 500,
         height: 'auto',
+        margin: '0 auto',
+        marginTop: 96,
+        textAlign: 'center',
+        fontFamily: 'sans-serif',
       }}
-      className="mx-auto my-24 text-center"
     >
-      <h1 className="font-bold text-xl">Statechart driven calculator</h1>
-      <h3 className="font-bold text-xxl">Made with react and Xstate 4.x</h3>
+      <h1
+        style={{
+          fontWeight: 'bold',
+          fontSize: 32,
+        }}
+      >
+        Statechart driven calculator
+      </h1>
+      <h3
+        style={{
+          fontWeight: 'bold',
+          fontSize: 18,
+        }}
+      >
+        Made with react and Xstate 4.x
+      </h3>
       <Calculator />
     </div>
   );
