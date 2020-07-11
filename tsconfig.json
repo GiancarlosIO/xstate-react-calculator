@@ -16,6 +16,7 @@
     "target": "es5",
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
     "lib": [
       "dom",
       "dom.iterable",
