@@ -8,6 +8,7 @@
     "styled-components",
     "react-dom"
   ],
+  "main": "src/index.tsx",
   "author": "",
   "license": "MIT",
   "scripts": {
