@@ -46,6 +46,19 @@ const Button = styled.button`
   }
 `;
 
+const ExtraData = styled.div`
+  margin-top: 8px;
+  padding: 20px 16px;
+  p,
+  pre,
+  code {
+    text-align: left;
+    margin: 0;
+    padding: 0;
+    margin-top: 12px;
+  }
+`;
+
 const buttons = [
   'C',
   'CE',
@@ -142,21 +155,7 @@ const Calculator = () => {
         ))}
       </ButtonGrid>
 
-      <div
-        className="mt-4 px-5 pb-4"
-        css={`
-          margin-top: 8px;
-          padding: 20px 16px;
-          p,
-          pre,
-          code {
-            text-align: left;
-            margin: 0;
-            padding: 0;
-            margin-top: 12px;
-          }
-        `}
-      >
+      <ExtraData>
         <p className="mt-1">State</p>
         <pre>
           <code>{JSON.stringify(state.value, null, 2)}</code>
@@ -165,7 +164,7 @@ const Calculator = () => {
         <pre>
           <code>{JSON.stringify(state.context, null, 2)}</code>
         </pre>
-      </div>
+      </ExtraData>
     </div>
   );
 };
