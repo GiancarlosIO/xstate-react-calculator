@@ -86,7 +86,7 @@ function isOperator(text) {
 }
 
 const Calculator = () => {
-  const [state, sendMachine] = useMachine(machine, {});
+  const [state, sendMachine] = useMachine(machine, { devTools: true});
 
   function send(event, payload) {
     console.log('Event - Payload', { event, payload });

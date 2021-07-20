@@ -2,12 +2,7 @@
   "name": "react-xstate",
   "version": "0.0.1",
   "description": "",
-  "keywords": [
-    "webpack",
-    "react",
-    "styled-components",
-    "react-dom"
-  ],
+  "keywords": ["webpack", "react", "styled-components", "react-dom"],
   "main": "src/index.tsx",
   "author": "",
   "license": "MIT",
@@ -26,7 +21,8 @@
     "react-dom": "16.13.1",
     "styled-components": "4.4.0",
     "typescript-styled-plugin": "^0.15.0",
-    "xstate": "4.11.0"
+    "xstate": "4.11.0",
+    "@xstate/inspect": "^0.4.1"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^3.5.0",
