@@ -10,7 +10,7 @@ import { inspect } from '@xstate/inspect';
 inspect({
   // options
   iframe: false,
-  url: "https://statecharts.io/inspect"
+  url: "https://stately.ai/viz?inspect"
 });
 
 ReactDOM.render(
