@@ -1,13 +1,8 @@
 {
-  "name": "react-xstate",
+  "name": "xstate-react-calculator-viz",
   "version": "0.0.1",
   "description": "",
-  "keywords": [
-    "webpack",
-    "react",
-    "styled-components",
-    "react-dom"
-  ],
+  "keywords": [],
   "main": "src/index.tsx",
   "author": "",
   "license": "MIT",
@@ -20,13 +15,14 @@
     "@types/react": "16.9.5",
     "@types/react-dom": "16.9.1",
     "@types/styled-components": "4.1.19",
+    "@xstate/inspect": "^0.4.1",
     "@xstate/react": "0.8.1",
     "nexus-scripts": "1.3.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "styled-components": "4.4.0",
     "typescript-styled-plugin": "^0.15.0",
-    "xstate": "4.11.0"
+    "xstate": "4.29.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^3.5.0",
